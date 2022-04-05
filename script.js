@@ -46,9 +46,9 @@ function getApi(state) {
                 var encodedUrl = encodeURI(weatherUrl);
                 console.log(encodedUrl);
                 fetch(encodedUrl)
-                .catch(function (error){
-                    console.log(error);
-                })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
                     .then(function (response) {
 
                         // console.log(response)
@@ -83,6 +83,9 @@ function getApi(state) {
                         var countryResults = document.createElement('p');
                         var temp = document.createElement('p');
 
+                        var favoritesBtn = document.createElement('button');
+                        favoritesBtn.textContent = "Favorite"
+                        favoritesBtn.setAttribute("data-name", data.data[i].fullName);
 
                         resultsP.textContent = 'Results'
                         parkName.textContent = data.data[i].fullName;
@@ -102,12 +105,14 @@ function getApi(state) {
                         sunday.textContent = 'Sunday: ' + data.data[i].operatingHours[0].standardHours.sunday;
                         locationResults.textContent = data.data[i].addresses[0].city;
                         countryResults.textContent = data.data[i].states;
-                        if(weatherData.cod == 404){
-                            
-                        }else{
+                        if (weatherData.cod == 404) {
+
+                        } else {
                             temp.textContent = weatherData.weather[0].description;
                         }
-                        
+
+
+
 
                         resultsParagragh.appendChild(resultsP);
                         tableData.appendChild(parkName);
@@ -127,8 +132,11 @@ function getApi(state) {
                         tableData.appendChild(locationResults);
                         tableData.appendChild(countryResults);
                         tableData.appendChild(temp);
+                        tableData.appendChild(favoritesBtn);
                         createTableRow.appendChild(tableData);
                         tableBody.appendChild(createTableRow);
+                        favoritesBtn.addEventListener("click", handleFavoritesButton);
+
                     }
                     )
 
@@ -138,7 +146,11 @@ function getApi(state) {
             console.log(error)
         })
 }
+function handleFavoritesButton(event) {
 
+    var parkName = event.target.dataset.name
+    console.log(parkName);
+}
 
 weatherFormEl.addEventListener('click', formSubmitHandler)
 
